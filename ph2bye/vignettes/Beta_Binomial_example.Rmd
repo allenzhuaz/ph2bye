@@ -1,0 +1,110 @@
+---
+title: 'Bayesian design using Beta-binomial model for single-arm clinical trials '
+author: "Yalin Zhu, Rui Qin, Bo Gao"
+date: "June 27, 2016"
+output: pdf_document
+header-includes: \usepackage{animate}
+---
+
+
+
+# Choose siutable parameters and construct posterior probability
+
+## Choose the prior distribution and parameters
+Let us look into the beta-binomial bayesian frame. First of all, we need to select parameter of $Beta(a,b)$. There are several methods to choose the prior parameter in the paper. 
+
+**1.** Based on the mean $\mu$ and the variance $\sigma^2$, we can derive the prior parameter of $Beta(a,b)$ distribution with $$a=\mu\left\{\frac{\mu(1-\mu)}{\sigma^2}-1\right\}$$ and $$b=(1-\mu)\left\{\frac{\mu(1-\mu)}{\sigma^2}-1\right\}.$$ 
+
+
+## Calculate the likelihood function of the proportion
+### Notations
+$\mu_0$: mean of prior response probability; $\sigma_0$: standard deviation of prior response probability;
+
+$n$: total sample size; $r$: boundary number of response subjects;
+
+$n_1$: sample size in the first stage; $r_1$: boundary number of response subjects in the first stage. 
+
+```{r tidy=TRUE}
+post.mean <- function(mu0,sigma0,n=0,r=0){
+## calculate the parameter for prior
+ a <- mu0^2*(1-mu0)/sigma0^2 - mu0; b <- mu0*(1-mu0)^2/sigma0^2 - (1-mu0)
+ postm <- (a+r)/(a+b+n)
+ result <- list("para.a"=a, "para.b"=b, "poterior mean"= postm)
+ return(result)
+}
+```
+## Test the arsenic trioxide trials example
+```{r tidy=TRUE}
+## create MM data and set the prior mean and variance
+MM.n = 1:12; MM.r = rep(0,12); MM.mean = 0.1; MM.var = 0.0225
+post.mean(mu0 = MM.mean, sigma0 = sqrt(MM.var),n=MM.n,r=MM.r)
+
+## create APL data and set the prior mean and variance
+APL.n = 1:20; APL.r =  c(0,1,1,1,2,3,4,5,5,6,7,8,8,9,10,11,12,13,14,15)
+APL.mean = 0.3; APL.var = 0.0191
+post.mean(mu0 = APL.mean, sigma0 = sqrt(APL.var),n=APL.n,r=APL.r)
+```
+
+## We can also create an objective function based on prior distribution 
+
+```{r tidy=TRUE}
+## suppose smaller trials suggest that the median of the distribution of prior is about 0.75 and 95 percentile is 0.85
+findpara <- function(prior.vec){
+  obj <- function(parm){
+  a <- parm[1]; b <- parm[2]
+  return((pbeta(0.5,a,b)-0.75)^2+(pbeta(0.95,a,b)-0.85)^2)
+  }
+## choose the optimal parameter based on the objective function
+out <- optim(c(1,1),obj)
+a <- out$par[1]; b <- out$par[2] ## return $par [1] 0.06211388 0.18292668
+}
+```
+
+
+
+
+## Plot the prior density function 
+```{r tidy=TRUE}
+source("simple_design.r")
+```
+
+## Now, we can create the plots to compare the mean prior response and estimated mean posterior response.
+```{r  tidy=TRUE, fig.show='animate', out.width = '6in'}
+## Test MM data from the above examples
+bayes.desgin(mu0=MM.mean,sigma=sqrt(MM.var),n=MM.n,r=MM.r,stop.rule="futility",Rmin=0.1,ymax=18)
+```
+
+```{r  tidy=TRUE, fig.show='animate', out.width = '6in'}
+## Test APL data from the above examples
+bayes.desgin(mu0=APL.mean,sigma=sqrt(APL.var),n=APL.n,r=APL.r,stop.rule="efficacy",Rmax=0.3, ymax=4.5)
+```
+
+### Separate plot
+```{r,eval=FALSE}
+for (i in seq_along(MM.n)){
+  mypath <- file.path("H:","rpgm","comp_pripost",paste("MM", MM.n[i], ".jpg", sep = ""))  
+jpeg(file=mypath)
+
+
+plot.pripost(m=MM.mean,v=MM.var,MM.n[i],MM.r[i],title=paste("Number of inclusions in MM trial: ",MM.n[i],sep =" "),ymax=18)
+
+dev.off()
+
+}
+```
+
+```{r,eval=FALSE}
+for (i in seq_along(APL.n)){
+  mypath <- file.path("H:","rpgm","comp_pripost",paste("APL", APL.n[i], ".jpg", sep = ""))  
+jpeg(file=mypath)
+
+
+plot.pripost(m=APL.mean,v=APL.var,APL.n[i],APL.r[i],title=paste("Number of inclusions in APL trial: ",APL.n[i],sep =" "),ymax=4.5)
+dev.off()
+
+}
+```
+
+
+
+stopping rules ... to be continued...
