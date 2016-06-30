@@ -7,7 +7,7 @@ bayes.desgin <- function(mu0,sigma0,n=0,r=0,stop.rule="futility", ymax, add.size
   ############################
   ## Part 0: Basic settings ##
   ############################
-# testing testing
+
   # if (dist="beta")......
   a <- mu0^2*(1-mu0)/sigma0^2 - mu0; b <- mu0*(1-mu0)^2/sigma0^2 - (1-mu0)
   # calculate the posterior mean according to known information
