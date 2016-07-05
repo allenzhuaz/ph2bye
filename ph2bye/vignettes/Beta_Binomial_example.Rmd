@@ -6,7 +6,10 @@ output: pdf_document
 header-includes: \usepackage{animate}
 ---
 
+# Sequential Stopping based on Posterior Probability design (`PostP`)
 
+
+# Predictive Probability Design (`PredP` a.k.a `PP`)
 
 # Choose siutable parameters and construct posterior probability
 
