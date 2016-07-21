@@ -1,7 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-
 // [[Rcpp::export]]
 double predprobCpp(int y, int n, int nmax, double a, double b, double p0, double theta_t) {
 

@@ -4,13 +4,14 @@ Title: Phase II Clinical Trial Design Using Bayesian Methods
 Version: 0.1.0
 Author: Yalin Zhu
 Maintainer: Yalin Zhu <yalin.zhu@regeneron.com>
-Description:
-License:  GPL (>= 2)
+Description: 
+License: GPL (>= 2)
 LazyData: TRUE
-
 Imports:
-    base
+    base,
+    ph2bayes
 Suggests:
     clinfun,
     gsDesign,
     survival
+RoxygenNote: 5.0.1

@@ -1,4 +1,3 @@
-
 ## create a function using parameters: prior mean (m) and varaince (v)
 ## n is the number of patients sequentially enrolled in trials; s is the number of response after inclusion of each new patient
 bayes.desgin <- function(mu0,sigma0,n=0,r=0,stop.rule="futility", ymax, add.size=5, alpha=0.05,

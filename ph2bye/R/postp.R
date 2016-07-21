@@ -110,3 +110,4 @@ oc.bdry <- function(pu, pa, r1, n1, r, n){
   names(out) <- c("P(reject H0 | p0)","P(reject H0 | p1)","PET(p0)","EN(p0)")
   out
 }
+
