@@ -19,13 +19,13 @@ PostP.design(type, nmax, a, b, p0, delta, theta)
 
 \item{delta}{the minimally acceptable increment of the response rate for the experimental drug compared with the standard drug.}
 
-\item{theta}{the cutoff probability: typically, \eqn{\theta = [0.95, 0.99]} for superiority, \eqn{\theta = [0.01, 0.05]} for futility.}
+\item{theta}{the cutoff probability: typically, \eqn{\theta = [0.95, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.05]} for futility.}
 }
 \value{
 \item{boundset}{the boundaries set; \eqn{U_n} or \eqn{L_n}}
 }
 \description{
-The design function to calucluate the sequential monitor sample size and boundary based on Thall and Simon's criterion.
+The design function to sequentially monitor sample size and boundary based on Thall and Simon's criterion.
 }
 \examples{
 ## Using vague prior Unif(0,1)
