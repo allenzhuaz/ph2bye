@@ -2,6 +2,6 @@
 
 export(PostP)
 export(PostP.design)
+export(PredP)
 export(PredP.design)
-export(PredProb)
 importFrom(stats,pbeta)
