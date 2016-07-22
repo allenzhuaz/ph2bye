@@ -36,7 +36,7 @@ PostP <- function(x, n, a, b, p0) {
 
 #' The stopping boundaries based on the posterior probability criterion
 #'
-#' The design function to calucluate the sequential monitor sample size and boundary based on Thall and Simon's criterion.
+#' The design function to sequentially monitor sample size and boundary based on Thall and Simon's criterion.
 #'
 #' @usage
 #' PostP.design(type, nmax, a, b, p0, delta, theta)
@@ -46,7 +46,7 @@ PostP <- function(x, n, a, b, p0) {
 #' @param b the hyperparameter (shape2) of the Beta prior for the experimental drug.
 #' @param p0 the pre-specified reseponse rate.
 #' @param delta the minimally acceptable increment of the response rate for the experimental drug compared with the standard drug.
-#' @param theta the cutoff probability: typically, \eqn{\theta = [0.95, 0.99]} for superiority, \eqn{\theta = [0.01, 0.05]} for futility.
+#' @param theta the cutoff probability: typically, \eqn{\theta = [0.95, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.05]} for futility.
 #' @return
 #' \item{boundset}{the boundaries set; \eqn{U_n} or \eqn{L_n}}
 #' @references
