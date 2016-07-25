@@ -45,7 +45,7 @@ PredP <- function(x, n, nmax, a, b, p0, theta_t) {
 #' @param a the hyperparameter (shape1) of the Beta prior for the experimental drug.
 #' @param b the hyperparameter (shape2) of the Beta prior for the experimental drug.
 #' @param p0 the the response rate for the standard drug.
-#' @param theta_t the prespecified target probability; tipically, \eqn{\theta_T = [0.85, 0.95]}.
+#' @param theta_t the prespecified target probability; tipically, \eqn{\theta_T = [0.85, 0.95]}. Set 0.9 by default.
 #' @param delta the minimally acceptable increment of the response rate for the experimental drug compared with the standard drug
 #' @param theta the cutoff probability: typically, \eqn{\theta = [0.95, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.05]} for futility.
 #' @return

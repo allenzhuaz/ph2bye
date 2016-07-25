@@ -92,22 +92,3 @@ PostP.design <- function(type = c("efficacy", "futility"), nmax, a, b, p0, delta
 
 }
 
-PostBound <- function(type = c("efficacy", "futility"),a,b,p0, theta){
-  type <- match.arg(type)
-
-}
-
-
-oc.bdry <- function(pu, pa, r1, n1, r, n){
-  pet <- err0 <- pbinom(r1,n1,pu)
-  ess <- n1 + (n-n1)*(1-pet)
-  err1 <- pbinom(r1,n1,pa)
-  for(i in (r1+1):r) {
-    err0 <- err0 + dbinom(i,n1,pu)*pbinom(r-i,n-n1,pu)
-    err1 <- err1 + dbinom(i,n1,pa)*pbinom(r-i,n-n1,pa)
-  }
-  out <- c(1-err0, 1-err1, pet, ess)
-  names(out) <- c("P(reject H0 | p0)","P(reject H0 | p1)","PET(p0)","EN(p0)")
-  out
-}
-
