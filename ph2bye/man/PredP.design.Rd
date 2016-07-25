@@ -17,7 +17,7 @@ PredP.design(type, nmax, a, b, p0, theta_t, delta, theta)
 
 \item{p0}{the the response rate for the standard drug.}
 
-\item{theta_t}{the prespecified target probability; tipically, \eqn{\theta_T = [0.85, 0.95]}.}
+\item{theta_t}{the prespecified target probability; tipically, \eqn{\theta_T = [0.85, 0.95]}. Set 0.9 by default.}
 
 \item{delta}{the minimally acceptable increment of the response rate for the experimental drug compared with the standard drug}
 
