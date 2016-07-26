@@ -7,9 +7,9 @@
 PostP(x, n, a, b, p0)
 }
 \arguments{
-\item{x}{the number of responses among \eqn{n} patients treated by the experimental drug at a certain stage of the trial.}
+\item{x}{the number of responses among \eqn{n} patients treated by the experimental drug.}
 
-\item{n}{the number of patients treated by the experimental drug at a certain stage of the trial.}
+\item{n}{the number of patients treated by the experimental drug.}
 
 \item{a}{the hyperparameter (shape1) of the Beta prior for the experimental drug.}
 

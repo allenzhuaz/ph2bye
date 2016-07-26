@@ -40,14 +40,14 @@ PredP <- function(x, n, nmax, a, b, p0, theta_t) {
 #'
 #' @usage
 #' PredP.design(type, nmax, a, b, p0, theta_t, delta, theta)
-#' @param type type of boundaries: "superiority" or "futility".
+#' @param type type of boundaries: "efficacy" or "futility".
 #' @param nmax the maximum number of patients treated by the experimental drug.
 #' @param a the hyperparameter (shape1) of the Beta prior for the experimental drug.
 #' @param b the hyperparameter (shape2) of the Beta prior for the experimental drug.
 #' @param p0 the the response rate for the standard drug.
 #' @param theta_t the prespecified target probability; tipically, \eqn{\theta_T = [0.85, 0.95]}. Set 0.9 by default.
 #' @param delta the minimally acceptable increment of the response rate for the experimental drug compared with the standard drug
-#' @param theta the cutoff probability: typically, \eqn{\theta = [0.95, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.05]} for futility.
+#' @param theta the cutoff probability: typically, \eqn{\theta = [0.9, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.1]} for futility.
 #' @return
 #' \item{boundset}{the boundaries set: \eqn{U_n} or \eqn{L_n}}
 #' @references

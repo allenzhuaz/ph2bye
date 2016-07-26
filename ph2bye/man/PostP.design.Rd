@@ -7,7 +7,7 @@
 PostP.design(type, nmax, a, b, p0, delta, theta)
 }
 \arguments{
-\item{type}{type of boundaries: "superiority" or "futility".}
+\item{type}{type of boundaries: "efficacy" or "futility".}
 
 \item{nmax}{the maximum number of patients treated by the experimental drug.}
 
@@ -19,7 +19,7 @@ PostP.design(type, nmax, a, b, p0, delta, theta)
 
 \item{delta}{the minimally acceptable increment of the response rate for the experimental drug compared with the standard drug.}
 
-\item{theta}{the cutoff probability: typically, \eqn{\theta = [0.95, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.05]} for futility.}
+\item{theta}{the cutoff probability: typically, \eqn{\theta = [0.9, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.1]} for futility.}
 }
 \value{
 \item{boundset}{the boundaries set; \eqn{U_n} or \eqn{L_n}}
