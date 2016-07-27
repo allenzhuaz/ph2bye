@@ -13,7 +13,6 @@ Depends:
     graphics,
     animation
 Imports:
-    base,
     ph2bayes,
     VGAM
 Suggests:
