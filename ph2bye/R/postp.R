@@ -32,8 +32,6 @@ PostP <- function(x, n, a, b, p0) {
 }
 
 
-
-
 #' The stopping boundaries based on the posterior probability criterion
 #'
 #' The design function to sequentially monitor sample size and boundary based on Thall and Simon's criterion.
@@ -45,8 +43,9 @@ PostP <- function(x, n, a, b, p0) {
 #' @param a the hyperparameter (shape1) of the Beta prior for the experimental drug.
 #' @param b the hyperparameter (shape2) of the Beta prior for the experimental drug.
 #' @param p0 the pre-specified reseponse rate.
-#' @param delta the minimally acceptable increment of the response rate for the experimental drug compared with the standard drug.
 #' @param theta the cutoff probability: typically, \eqn{\theta = [0.9, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.1]} for futility.
+#' @param optimize logical value, if optimize=TRUE, then only output the minimal sample size for the same number of futility boundaries and maximal sample size for the same number efficacy boundaries
+
 #' @return
 #' \item{boundset}{the boundaries set; \eqn{U_n} or \eqn{L_n}}
 #' @references
@@ -59,26 +58,26 @@ PostP <- function(x, n, a, b, p0) {
 #' New York: Wiley.
 #' @examples
 #' ## Using vague prior Unif(0,1)
-#' PostP.design(type = "futility", nmax=100, a=1, b=1, p0=0.15, delta=0.15, theta=0.05)
-#' PostP.design(type = "efficacy", nmax=100, a=1, b=1, p0=0.15, delta=0.15, theta=0.9)
+#' PostP.design(type = "futility", nmax=100, a=1, b=1, p0=0.3, theta=0.05)
+#' PostP.design(type = "efficacy", nmax=100, a=1, b=1, p0=0.3, theta=0.9)
 #' ## Or using Jeffery prior with Beta(0.5,0.5)
-#' PostP.design(type = "futility", nmax=100, a=0.5, b=0.5, p0=0.15, delta=0.15, theta=0.05)
-#' PostP.design(type = "efficacy", nmax=100, a=0.5, b=0.5, p0=0.15, delta=0.15, theta=0.9)
+#' PostP.design(type = "futility", nmax=100, a=0.5, b=0.5, p0=0.3, theta=0.05)
+#' PostP.design(type = "efficacy", nmax=100, a=0.5, b=0.5, p0=0.3, theta=0.9)
 #' @export
-PostP.design <- function(type = c("efficacy", "futility"), nmax, a, b, p0, delta=0, theta) {
+PostP.design <- function(type = c("efficacy", "futility"), nmax, a, b, p0, theta, optimize=FALSE) {
   type <- match.arg(type)
   bound <- rep(NA, nmax)
   for (n in 1:nmax) {
     if (type == "efficacy") {
       for (x in 0:n) {
-        if (PostP(x, n, a, b, p0) > theta) {
+        if (PostP(x, n, a, b, p0) >= theta) {
           bound[n] <- x
           break
         }
       }
     } else {
       for (x in n:0) {
-        if (PostP(x, n, a, b, p0+delta) < theta) {
+        if (PostP(x, n, a, b, p0) <= theta) {
           bound[n] <- x
           break
         }
@@ -87,8 +86,7 @@ PostP.design <- function(type = c("efficacy", "futility"), nmax, a, b, p0, delta
   }
 
   boundset <- data.frame(n = 1:nmax, bound = bound)
-
+if (optimize==TRUE){
   return(boundset[!duplicated(boundset[, 2]), ])
-
+  } else {return(boundset)}
 }
-
