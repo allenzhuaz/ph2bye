@@ -1,7 +1,7 @@
 Package: ph2bye
 Type: Package
 Title: Phase II Clinical Trial Design Using Bayesian Methods
-Version: 0.1.2
+Version: 0.1.3
 Author: Yalin Zhu, Rui Qin
 Maintainer: Yalin Zhu <yalin.zhu@outlook.com>
 Description: Calculate the Bayesian posterior/predictive probability and
@@ -13,11 +13,11 @@ Depends:
     graphics,
     animation
 Imports:
-    ph2bayes,
+    Rcpp,
     VGAM
 Suggests:
     clinfun,
     gsDesign,
-    survival,
-    testthat
+    survival
+LinkingTo: Rcpp
 RoxygenNote: 5.0.1
