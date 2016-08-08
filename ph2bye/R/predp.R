@@ -29,7 +29,7 @@
 
 PredP <- function(x, n, nmax, a, b, p0, theta_t) {
 
-  return(ph2bayes::predprob(y = x,n = n,nmax = nmax,alpha_e = a,beta_e = b,p_s = p0,theta_t = theta_t))
+  return(PredPCpp(x, n, nmax, a, b, p0, theta_t))
 
 }
 
@@ -46,8 +46,8 @@ PredP <- function(x, n, nmax, a, b, p0, theta_t) {
 #' @param b the hyperparameter (shape2) of the Beta prior for the experimental drug.
 #' @param p0 the the response rate for the standard drug.
 #' @param theta_t the prespecified target probability; tipically, \eqn{\theta_T = [0.85, 0.95]}. Set 0.9 by default.
-#' @param delta the minimally acceptable increment of the response rate for the experimental drug compared with the standard drug
 #' @param theta the cutoff probability: typically, \eqn{\theta = [0.9, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.1]} for futility.
+#' @param optimize logical value, if optimize=TRUE, then only output the minimal sample size for the same number of futility boundaries and maximal sample size for the same number efficacy boundaries 
 #' @return
 #' \item{boundset}{the boundaries set: \eqn{U_n} or \eqn{L_n}}
 #' @references
@@ -62,13 +62,29 @@ PredP <- function(x, n, nmax, a, b, p0, theta_t) {
 #' PredP.design(type = "futility", nmax=40, a=1, b=1, p0=0.15, delta=0.15, theta=0.05)
 #' PredP.design(type = "efficacy", nmax=40, a=1, b=1, p0=0.15, delta=0.15, theta=0.9)
 #' @export
-PredP.design <- function(type = c("efficacy", "futility"), nmax, a, b, p0, theta_t=0.9, delta, theta) {
-
-  type <- match.arg(type)
-  if (type == "efficacy") {
-  return(ph2bayes::stopbound_pred(theta = theta,type = "superiority",nmax = nmax,alpha_e = a,beta_e = b,p_s = p0,theta_t = theta_t))
-  } else {
-  return(ph2bayes::stopbound_pred(theta = theta,type = "futility",nmax = nmax,alpha_e = a,beta_e = b,p_s = p0+delta,theta_t = theta_t))
-  }
-}
-
+PredP.design <- function(type = c("efficacy", "futility"), nmax, a, b, p0, theta_t=0.9, delta, theta, optimize=FALSE) {
+    type <- match.arg(type)
+    bound <- rep(NA, nmax)
+    for (n in 1:nmax) {
+      if (type == "efficacy") {
+        for (x in 0:n) {
+          if (PredP(x, n, nmax, a, b, p0, theta_t) >= theta) {
+            bound[n] <- x
+            break
+          }
+        }
+      }
+      else {
+        for (x in n:0) {
+          if (PredP(x, n, nmax, a, b, p0, theta_t) <= theta) {
+            bound[n] <- x
+            break
+          }
+        }
+      }
+    }
+    boundset <- data.frame(n = 1:nmax, bound = bound)
+  if (optimize==TRUE){
+    return(boundset[!duplicated(boundset[, 2]), ])
+  } else {return(boundset)}
+} 
