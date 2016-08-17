@@ -4,7 +4,7 @@
 \alias{PostP.design}
 \title{The stopping boundaries based on the posterior probability criterion}
 \usage{
-PostP.design(type, nmax, a, b, p0, delta, theta)
+PostP.design(type, nmax, a, b, p0, theta, optimize)
 }
 \arguments{
 \item{type}{type of boundaries: "efficacy" or "futility".}
@@ -17,23 +17,23 @@ PostP.design(type, nmax, a, b, p0, delta, theta)
 
 \item{p0}{the pre-specified reseponse rate.}
 
-\item{delta}{the minimally acceptable increment of the response rate for the experimental drug compared with the standard drug.}
-
 \item{theta}{the cutoff probability: typically, \eqn{\theta = [0.9, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.1]} for futility.}
+
+\item{optimize}{logical value, if optimize=TRUE, then only output the minimal sample size for the same number of futility and efficacy boundaries.}
 }
 \value{
-\item{boundset}{the boundaries set; \eqn{U_n} or \eqn{L_n}}
+\item{boundset}{the boundaries set: \eqn{U_n} or \eqn{L_n}}
 }
 \description{
 The design function to sequentially monitor sample size and boundary based on Thall and Simon's criterion.
 }
 \examples{
 ## Using vague prior Unif(0,1)
-PostP.design(type = "futility", nmax=100, a=1, b=1, p0=0.15, delta=0.15, theta=0.05)
-PostP.design(type = "efficacy", nmax=100, a=1, b=1, p0=0.15, delta=0.15, theta=0.9)
+PostP.design(type = "futility", nmax=100, a=1, b=1, p0=0.3, theta=0.05)
+PostP.design(type = "efficacy", nmax=100, a=1, b=1, p0=0.3, theta=0.9)
 ## Or using Jeffery prior with Beta(0.5,0.5)
-PostP.design(type = "futility", nmax=100, a=0.5, b=0.5, p0=0.15, delta=0.15, theta=0.05)
-PostP.design(type = "efficacy", nmax=100, a=0.5, b=0.5, p0=0.15, delta=0.15, theta=0.9)
+PostP.design(type = "futility", nmax=100, a=0.5, b=0.5, p0=0.3, theta=0.05)
+PostP.design(type = "efficacy", nmax=100, a=0.5, b=0.5, p0=0.3, theta=0.9)
 }
 \references{
 Thall, P. F., Simon, R. (1994).

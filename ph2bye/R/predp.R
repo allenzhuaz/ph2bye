@@ -11,7 +11,7 @@
 #' @param a the hyperparameter (shape1) of the Beta prior for the experimental drug.
 #' @param b the hyperparameter (shape2) of the Beta prior for the experimental drug.
 #' @param p0 the the response rate for the standard drug.
-#' @param theta_t the prespecified target probability; tipically, \eqn{\theta_T = [0.85, 0.95]}.
+#' @param theta_t the cutoff probability for efficacy including future patients; typically, \eqn{\theta_T = [0.85, 0.95]}. Set 0.9 by default.
 #' @return
 #' \item{prob}{the predictive probability: \eqn{PP = \sum\limits_{y=0}^{n_{max}-n} Pr(Y=y | x) I(\Pr(p > p_0 | Y=y, x) \geq \theta_T) }}
 #' @references
@@ -24,7 +24,7 @@
 #' New York: Wiley.
 #' @examples
 #' # Using vague prior Uniform(0,1), i.e. Beta(1,1)
-#' PredP(16, 23, 40, 1, 1, 0.15, 0.9)
+#' PredP(16, 23, 40, 1, 1, 0.5, 0.9)
 #' @export
 
 PredP <- function(x, n, nmax, a, b, p0, theta_t) {
@@ -39,15 +39,15 @@ PredP <- function(x, n, nmax, a, b, p0, theta_t) {
 #' The design function to sequentially monitor sample size and boundary based on Lee and Liu's criterion.
 #'
 #' @usage
-#' PredP.design(type, nmax, a, b, p0, theta_t, delta, theta)
+#' PredP.design(type, nmax, a, b, p0, theta_t, theta, optimize)
 #' @param type type of boundaries: "efficacy" or "futility".
 #' @param nmax the maximum number of patients treated by the experimental drug.
 #' @param a the hyperparameter (shape1) of the Beta prior for the experimental drug.
 #' @param b the hyperparameter (shape2) of the Beta prior for the experimental drug.
 #' @param p0 the the response rate for the standard drug.
-#' @param theta_t the prespecified target probability; tipically, \eqn{\theta_T = [0.85, 0.95]}. Set 0.9 by default.
 #' @param theta the cutoff probability: typically, \eqn{\theta = [0.9, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.1]} for futility.
-#' @param optimize logical value, if optimize=TRUE, then only output the minimal sample size for the same number of futility boundaries and maximal sample size for the same number efficacy boundaries 
+#' @param theta_t the cutoff probability for efficacy including future patients; typically, \eqn{\theta_T = [0.85, 0.95]}. Set 0.9 by default.
+#' @param optimize logical value, if optimize=TRUE, then only output the minimal sample size for the same number of futility and efficacy boundaries.
 #' @return
 #' \item{boundset}{the boundaries set: \eqn{U_n} or \eqn{L_n}}
 #' @references
@@ -59,10 +59,10 @@ PredP <- function(x, n, nmax, a, b, p0, theta_t) {
 #' \emph{Clinical Trial Design: Bayesian and Frequentist Adaptive Methods.}
 #' New York: Wiley.
 #' @examples
-#' PredP.design(type = "futility", nmax=40, a=1, b=1, p0=0.15, delta=0.15, theta=0.05)
-#' PredP.design(type = "efficacy", nmax=40, a=1, b=1, p0=0.15, delta=0.15, theta=0.9)
+#' PredP.design(type = "futility", nmax=40, a=1, b=1, p0=0.3, theta=0.05)
+#' PredP.design(type = "efficacy", nmax=40, a=1, b=1, p0=0.3, theta=0.9)
 #' @export
-PredP.design <- function(type = c("efficacy", "futility"), nmax, a, b, p0, theta_t=0.9, delta, theta, optimize=FALSE) {
+PredP.design <- function(type = c("efficacy", "futility"), nmax, a, b, p0, theta_t=0.9, theta, optimize=FALSE) {
     type <- match.arg(type)
     bound <- rep(NA, nmax)
     for (n in 1:nmax) {
@@ -87,4 +87,5 @@ PredP.design <- function(type = c("efficacy", "futility"), nmax, a, b, p0, theta
   if (optimize==TRUE){
     return(boundset[!duplicated(boundset[, 2]), ])
   } else {return(boundset)}
-} 
+}
+

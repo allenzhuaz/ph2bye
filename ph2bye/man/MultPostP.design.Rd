@@ -4,7 +4,7 @@
 \alias{MultPostP.design}
 \title{The stopping boundaries based on the multiple outcomes criterion}
 \usage{
-MultPostP.design(type, nmax, a.vec, p0, delta, theta)
+MultPostP.design(type, nmax, a.vec, p0, theta, optimize)
 }
 \arguments{
 \item{type}{type of boundaries: "efficacy" or "futility" or "toxicity".}
@@ -15,9 +15,9 @@ MultPostP.design(type, nmax, a.vec, p0, delta, theta)
 
 \item{p0}{the prespecified reseponse rate for efficacy or toxicity.}
 
-\item{delta}{the minimally acceptable increment of the response rate for the experimental drug compared with the pre-specific rate.}
-
 \item{theta}{the cutoff probability: typically, \eqn{\theta = [0.9, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.1]} for futility, and \eqn{\theta = [0.95, 1]} for toxicity.}
+
+\item{optimize}{logical value, if optimize=TRUE, then only output the minimal sample size for the same number of futility boundaries and maximal sample size for the same number efficacy boundaries}
 }
 \value{
 \item{boundset}{the boundaries set: \eqn{U_n} or \eqn{L_n} for the experimental drug efficacy or futility; \eqn{T_n} for the experimental drug toxicity.}

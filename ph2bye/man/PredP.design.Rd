@@ -4,7 +4,7 @@
 \alias{PredP.design}
 \title{The stopping boundaries based on the predictive probability criterion}
 \usage{
-PredP.design(type, nmax, a, b, p0, theta_t, delta, theta)
+PredP.design(type, nmax, a, b, p0, theta_t, theta, optimize)
 }
 \arguments{
 \item{type}{type of boundaries: "efficacy" or "futility".}
@@ -17,11 +17,11 @@ PredP.design(type, nmax, a, b, p0, theta_t, delta, theta)
 
 \item{p0}{the the response rate for the standard drug.}
 
-\item{theta_t}{the prespecified target probability; tipically, \eqn{\theta_T = [0.85, 0.95]}. Set 0.9 by default.}
-
-\item{delta}{the minimally acceptable increment of the response rate for the experimental drug compared with the standard drug}
+\item{theta_t}{the cutoff probability for efficacy including future patients; typically, \eqn{\theta_T = [0.85, 0.95]}. Set 0.9 by default.}
 
 \item{theta}{the cutoff probability: typically, \eqn{\theta = [0.9, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.1]} for futility.}
+
+\item{optimize}{logical value, if optimize=TRUE, then only output the minimal sample size for the same number of futility and efficacy boundaries.}
 }
 \value{
 \item{boundset}{the boundaries set: \eqn{U_n} or \eqn{L_n}}
@@ -30,8 +30,8 @@ PredP.design(type, nmax, a, b, p0, theta_t, delta, theta)
 The design function to sequentially monitor sample size and boundary based on Lee and Liu's criterion.
 }
 \examples{
-PredP.design(type = "futility", nmax=40, a=1, b=1, p0=0.15, delta=0.15, theta=0.05)
-PredP.design(type = "efficacy", nmax=40, a=1, b=1, p0=0.15, delta=0.15, theta=0.9)
+PredP.design(type = "futility", nmax=40, a=1, b=1, p0=0.3, theta=0.05)
+PredP.design(type = "efficacy", nmax=40, a=1, b=1, p0=0.3, theta=0.9)
 }
 \references{
 Lee, J. J., Liu, D. D. (2008).

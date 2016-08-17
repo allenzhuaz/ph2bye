@@ -42,13 +42,14 @@ MultPostP <- function(x, n, a.vec, p0) {
 #' The design function to sequentially monitor sample size and boundary based on Thall, Simon and Estey's criterion.
 #'
 #' @usage
-#' MultPostP.design(type, nmax, a.vec, p0, delta, theta)
+#' MultPostP.design(type, nmax, a.vec, p0, theta, optimize)
 #' @param type type of boundaries: "efficacy" or "futility" or "toxicity".
 #' @param nmax the maximum number of patients treated by the experimental drug.
 #' @param a.vec the hyperparameter vector of the Dirichlet prior for the experimental drug.
 #' @param p0 the prespecified reseponse rate for efficacy or toxicity.
-#' @param delta the minimally acceptable increment of the response rate for the experimental drug compared with the pre-specific rate.
 #' @param theta the cutoff probability: typically, \eqn{\theta = [0.9, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.1]} for futility, and \eqn{\theta = [0.95, 1]} for toxicity.
+#' @param optimize logical value, if optimize=TRUE, then only output the minimal sample size for the same number of futility boundaries and maximal sample size for the same number efficacy boundaries
+
 #' @return
 #' \item{boundset}{the boundaries set: \eqn{U_n} or \eqn{L_n} for the experimental drug efficacy or futility; \eqn{T_n} for the experimental drug toxicity.}
 #' @references
@@ -65,7 +66,7 @@ MultPostP <- function(x, n, a.vec, p0) {
 #' MultPostP.design(type="efficacy",nmax = 30,a.vec = c(1,1,1,1),p0 = 0.15, theta = 0.9)
 #' MultPostP.design(type="toxicity",nmax = 30,a.vec = c(1,1,1,1),p0 = 0.15, theta = 0.95)
 #' @export
-MultPostP.design <- function(type = c("efficacy", "futility", "toxicity"), nmax, a.vec, p0, delta=0, theta) {
+MultPostP.design <- function(type = c("efficacy", "futility", "toxicity"), nmax, a.vec, p0, theta, optimize=FALSE) {
   type <- match.arg(type)
   bound <- rep(NA, nmax)
   for (n in 1:nmax) {
@@ -78,14 +79,14 @@ MultPostP.design <- function(type = c("efficacy", "futility", "toxicity"), nmax,
       }
     } else if (type=="futility") {
       for (x in n:0) {
-        if (MultPostP(x, n, a.vec, p0+delta)[1] < theta) {
+        if (MultPostP(x, n, a.vec, p0)[1] < theta) {
           bound[n] <- x
           break
         }
       }
     } else {
       for (x in 0:n) {
-        if (MultPostP(x, n, a.vec, p0+delta)[2] > theta) {
+        if (MultPostP(x, n, a.vec, p0)[2] > theta) {
           bound[n] <- x
           break
         }
@@ -96,6 +97,7 @@ MultPostP.design <- function(type = c("efficacy", "futility", "toxicity"), nmax,
 
   boundset <- data.frame(n = 1:nmax, bound = bound)
 
-  return(boundset[!duplicated(boundset[, 2]), ])
-
+  if (optimize==TRUE){
+    return(boundset[!duplicated(boundset[, 2]), ])
+  } else {return(boundset)}
 }

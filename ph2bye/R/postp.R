@@ -37,17 +37,16 @@ PostP <- function(x, n, a, b, p0) {
 #' The design function to sequentially monitor sample size and boundary based on Thall and Simon's criterion.
 #'
 #' @usage
-#' PostP.design(type, nmax, a, b, p0, delta, theta)
+#' PostP.design(type, nmax, a, b, p0, theta, optimize)
 #' @param type type of boundaries: "efficacy" or "futility".
 #' @param nmax the maximum number of patients treated by the experimental drug.
 #' @param a the hyperparameter (shape1) of the Beta prior for the experimental drug.
 #' @param b the hyperparameter (shape2) of the Beta prior for the experimental drug.
 #' @param p0 the pre-specified reseponse rate.
 #' @param theta the cutoff probability: typically, \eqn{\theta = [0.9, 0.99]} for efficacy, \eqn{\theta = [0.01, 0.1]} for futility.
-#' @param optimize logical value, if optimize=TRUE, then only output the minimal sample size for the same number of futility boundaries and maximal sample size for the same number efficacy boundaries
-
+#' @param optimize logical value, if optimize=TRUE, then only output the minimal sample size for the same number of futility and efficacy boundaries.
 #' @return
-#' \item{boundset}{the boundaries set; \eqn{U_n} or \eqn{L_n}}
+#' \item{boundset}{the boundaries set: \eqn{U_n} or \eqn{L_n}}
 #' @references
 #' Thall, P. F., Simon, R. (1994).
 #' Practical Bayesian guidelines for phase IIB clinical trials.
@@ -90,3 +89,4 @@ if (optimize==TRUE){
   return(boundset[!duplicated(boundset[, 2]), ])
   } else {return(boundset)}
 }
+

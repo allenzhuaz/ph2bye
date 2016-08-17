@@ -1,17 +1,19 @@
 Package: ph2bye
 Type: Package
 Title: Phase II Clinical Trial Design Using Bayesian Methods
-Version: 0.1.3
+Version: 0.1.4
 Author: Yalin Zhu, Rui Qin
 Maintainer: Yalin Zhu <yalin.zhu@outlook.com>
 Description: Calculate the Bayesian posterior/predictive probability and
     determine the sample size and stopping boundaries for single-arm Phase II design.
 License: GPL (>= 2)
+URL: https://allen.shinyapps.io/BayesDesign/
 LazyData: TRUE
 Depends:
     stats,
     graphics,
-    animation
+    animation,
+    nleqslv
 Imports:
     Rcpp,
     VGAM
