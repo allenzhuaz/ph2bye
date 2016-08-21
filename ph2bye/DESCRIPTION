@@ -20,9 +20,6 @@ Imports:
 Suggests:
     clinfun,
     gsDesign,
-    survival,
-    knitr,
-    rmarkdown
+    survival
 LinkingTo: Rcpp
 RoxygenNote: 5.0.1
-VignetteBuilder: knitr

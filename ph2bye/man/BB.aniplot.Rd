@@ -31,10 +31,10 @@ Make animation plots to present sequential monitor the patients using Beta-Binom
 }
 \examples{
 # Using APL data
-r=rep(0,12)
+r=rep(0,6)
 BB.aniplot(a=1,b=1,r=r, alpha=0.05, seed=1234)
 # Simulate binomial data
-B <- 50; N=1; p=0.3
+B <- 10; N=1; p=0.3
 r <- rbinom(n = B,size = N,prob = p)
 BB.aniplot(a=1,b=1,r=r,time.interval = 0.2,output = FALSE)
 }
